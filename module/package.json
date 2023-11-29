@@ -1,0 +1,15 @@
+{
+   "name": "shortscript-main",
+   "version": "1.0.0-",
+   "description": "A shorter version of javascript.",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "reinit": "npx sst init"
+   },
+   "engines": {
+      "node": ">=10.12.0"
+   },
+   "author": "XR5 Projects",
+   "license": "ISC"
+}

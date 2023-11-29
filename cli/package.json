@@ -1,0 +1,24 @@
+{
+  "name": "shortscript-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for shortscript.",
+  "engines": {
+    "node": ">=10.12.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "sst": "cli.js",
+    "shortscript": "cli-full.js"
+  },
+  "dependencies": {
+    "@electron/asar": "^3.2.8",
+    "chalk": "^4.0.0",
+    "commander": "^11.1.0",
+    "graceful-fs": "^4.2.11"
+  },
+  "author": "XR5 Projects",
+  "license": "MIT",
+  "devDependencies": {}
+}
