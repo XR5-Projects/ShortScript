@@ -48,5 +48,5 @@ Commands:
   help [command]                           display help for command
 ```
 
-> ![NOTE]
+> [!NOTE]
 > You can add npx before the cli if it is installed in the project.
