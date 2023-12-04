@@ -48,5 +48,9 @@ Commands:
   help [command]                           display help for command
 ```
 
-> ![NOTE]
+> **Note:**
 > You can add npx before the cli if it is installed in the project.
+
+## Language Keywords
+
+ The JavaScript keywords that were shortened can be fiund in this [Link](https://shortscript-keywords.tiiny.site). Any JS keywords that does not appear in the link means that they have no short form and they should be written fully.

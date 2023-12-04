@@ -8,7 +8,8 @@ const [
     crypto,
     dataInt,
     { setMaxListeners },
-    readline
+    readline,
+    tempCleaner
 ] = [
         require("node:path"),
         require("node:fs"),
@@ -19,7 +20,8 @@ const [
         require("node:crypto"),
         require("./lib/data"),
         require("node:events"),
-        require("node:readline")
+        require("node:readline"),
+        require("./lib/temp-cleaner")
     ]
 
 setMaxListeners(29)
@@ -92,7 +94,6 @@ function generateString(length) {
 
     return result;
 }
-
 function cypherFile(file, key) {
     var algo = "aes-256-gcm"
     var keyl = crypto.createHash("sha256")
@@ -124,7 +125,68 @@ function cypherFile(file, key) {
         }
     }
 }
+const decryptRec = (srck, key) => {
+    var src = srck
+    const exist = fs.existsSync(src)
+    const stats = exist && fs.statSync(src)
+    const isDir = stats && stats.isDirectory()
+    if (isDir) {
+        fs.readdirSync(src).forEach((vas, ind, ass) => {
+            decryptRec(`${src}/${vas}`, key)
+        })
+    } else {
+        var dataFile = fs.readFileSync(src, { encoding: "utf-8" })
+        var convD = ()=>{
+            var d = cryjs.decryptText(dataFile, key).data
+            if(!d){
+                return ""
+            }else{
+                return d
+            }
+        }
+        var convData = convD()
+
+        if (src.endsWith(".ssc")) {
+            fs.writeFileSync(src.replace(".ssc", ".js"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".ssdt")) {
+            fs.writeFileSync(src.replace(".ssdt", ".d.ts"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".ssy")) {
+            fs.writeFileSync(src.replace(".ssy", ".ts"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".ssm")) {
+            fs.writeFileSync(src.replace(".ssm", ".mjs"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".sscs")) {
+            fs.writeFileSync(src.replace(".sscs", ".cjs"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".sscx")) {
+            fs.writeFileSync(src.replace(".sscx", ".jsx"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".ssyx")) {
+            fs.writeFileSync(src.replace(".ssyx", ".tsx"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".sson")) {
+            fs.writeFileSync(src.replace(".sson", ".json"), convData)
+            fs.unlinkSync(src)
+        }
+        if (src.endsWith(".sstc")) {
+            fs.writeFileSync(src.replace(".sstc", ".sst"), convData)
+            fs.unlinkSync(src)
+        }
+    }
+}
+
 function decompile(file, opts) {
+    tempCleaner()
     var log = logger(chalk.blue("Run"), "Checking system...")
     var func1 = () => {
         log.update(chalk.blue("Run"), "Checking program...")
@@ -134,12 +196,15 @@ function decompile(file, opts) {
         var tempdir_02 = path.join(dataInt.dir, "temp_01", generateString(20))
         var tempbin = path.join(tempdir_02, "bin")
 
-        log.update(chalk.blue("Run"), "Loading program... [1/2]")
+        log.update(chalk.blue("Run"), "Loading program... [1/3]")
         asar.extractAll(file, tempdir_02)
         cypherFile(tempbin, info.sign).decrypt(info.auth)
 
-        log.update(chalk.blue("Run"), "Loading program... [2/2]")
+        log.update(chalk.blue("Run"), "Loading program... [2/3]")
         asar.extractAll(tempbin, tempdir_01)
+        
+        log.update(chalk.blue("Run"), "Loading program... [3/3]")
+        decryptRec(tempdir_01, info.sign)
 
         if (!opts.execScript) {
             var node = child_process.exec(`node ${path.join(tempdir_01, info.main)}`, () => { })
@@ -213,7 +278,7 @@ function execProgram(file, opts) {
                 output: process.stdout
             })
 log.clear()
-            intFace.question(`Found ${sstz_files.length} .sstz files:${sting}\n\nTo select a file type its number.\nTo exit type 'exit' or 'cancel'\nOption: `, (ans)=>{
+            intFace.question(`Found ${sstz_files.length} .sstz files:${sting}\n\nTo select a file type its number.\nTo exit type 'exit' or 'cancel'\n>: `, (ans)=>{
                 if(!ans||ans=="cancel"||ans=="exit"){
                     console.log(chalk.gray("Run"), "Process Cancelled")
                     intFace.close()

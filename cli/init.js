@@ -1,6 +1,8 @@
 const fs = require("graceful-fs")
 const chlk = require("chalk")
 const dataInt = require("./lib/data")
+const pathMod = require("node:path")
+const tempCleaner = require("./lib/temp-cleaner")
 
 var chalk = chlk
 function generateString(length) {
@@ -45,12 +47,8 @@ function projectId(id) {
 }
 
 function init(path) {
-    var pkgjson_path = `${path}/package.json`
-    var pkg = JSON.parse(fs.readFileSync(pkgjson_path, { encoding: "utf-8" }))
-
-    if (!fs.existsSync(`${pkg.sstConfig.outputPath}`)||fs.existsSync(`${pkg.sstConfig.outputPath}`)==false) {
-        fs.mkdirSync(`${pkg.sstConfig.outputPath}`)
-    }
+    tempCleaner()
+    var pkgjson_path = pathMod.join(path, "package.json")
 
     var folder_name = path.split("\\")[
         parseInt(path.split("\\").length) - 1
@@ -58,6 +56,9 @@ function init(path) {
     var pgk = projectId(generateString(50))
 
     try {
+        if(!fs.existsSync("./out")){
+            fs.mkdirSync("./out")
+        }
         if (!fs.existsSync(pkgjson_path)) {
             fs.writeFileSync(pkgjson_path, JSON.stringify({
                 "name": folder_name,
@@ -71,7 +72,6 @@ function init(path) {
                 "license": "ISC",
                 "sstConfig": {
                     "compileType": "sstz",
-                    "outputPath": `${path}\\out`,
                     "keySign": pgk.id,
                     "ignore": [
                         "out"
@@ -83,14 +83,14 @@ function init(path) {
         } else {
             var pkgjson = require(pkgjson_path)
             pkgjson.sstConfig = {
-                compileType: "sstz",
-                outputPath: `${path}/out`,
                 keySign: pgk.id,
-                ignore: []
+                ignore: [
+                    "out"
+                ]
             }
-            pgk.save(path)
             fs.writeFileSync(pkgjson_path, JSON.stringify(pkgjson, null, 3))
         }
+        pgk.save(path)
         console.log(chalk.bgWhite(chalk.green("Done")) + " : " + "Completed initialisation.")
     } catch (err) {
         console.log(chalk.bgWhite(chalk.red("Error")) + " : " + err)

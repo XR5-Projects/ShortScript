@@ -13,15 +13,7 @@ function requireScript(name, options) {
     } else {
         var data1 = readFileSync(dir, { encoding: "utf8" })
         var s1 = dataOne(data1)
-        writeFileSync(out, s1)
-
-        process.on("SIGQUIT", () => {
-            unlinkSync(out)
-        })
-        process.on("exit", () => {
-            unlinkSync(out)
-        })
-        return require(`${root}/${name}`)
+        return eval(s1)
     }
 }
 

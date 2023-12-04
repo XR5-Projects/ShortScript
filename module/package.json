@@ -1,15 +1,28 @@
 {
    "name": "shortscript-main",
-   "version": "1.0.0-",
+   "version": "1.0.0-stable01",
    "description": "A shorter version of javascript.",
    "main": "index.js",
    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "reinit": "npx sst init"
+      "test": "echo \"Error: no test specified\" && exit 1"
    },
    "engines": {
       "node": ">=10.12.0"
    },
    "author": "XR5 Projects",
-   "license": "ISC"
+   "license": "MIT",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/XR5-Projects/ShortScript.git"
+   },
+   "bugs": {
+      "url": "https://github.com/XR5-Projects/ShortScript/issues"
+   },
+   "keywords": [
+      "shortscript",
+      "short",
+      "js",
+      "javascript",
+      "language"
+   ]
 }

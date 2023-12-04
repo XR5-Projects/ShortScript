@@ -2,7 +2,7 @@
 
 ShortScript is a shorter version of JavaScript, it is wriiten a file that has a ".sst" extension which can be imported in a Node.js file/program.
 
-> [!NOTE]
+> **Note:**
 > This module uses does not use/support ESM.
 
 ## Features
@@ -50,3 +50,7 @@ sst.convertScript(name: string) // coverts to .js
 ```javascript
 sst.reqScript(name: string) // coverts to .js
 ```
+
+## Language Keywords
+
+ The JavaScript keywords that were shortened can be fiund in this [Link](https://shortscript-keywords.tiiny.site). Any JS keywords that does not appear in the link means that they have no short form and they should be written fully.

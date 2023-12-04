@@ -28,7 +28,10 @@ $ npm i shortscript-cli
 # global: npm i shortscript-cli -g
 ```
 
+## Language Keywords
 
+ The JavaScript keywords that were shortened can be fiund in this [Link](https://shortscript-keywords.tiiny.site). Any JS keywords that does not appear in the link means that they have no short form and they should be written fully.
+ 
 ## Usage (CLI Global)
 
 ```
@@ -50,3 +53,25 @@ Commands:
 
 > [!NOTE]
 > You can add npx before the cli if it is installed in the project.
+> [!Note]
+> This module uses does not use/support ESM.
+
+## Usage (module)
+
+### Import module
+
+```javascript
+const sst = require("shortscript-module");
+```
+
+### Convert .sst to .js
+
+```javascript
+sst.convertScript(name: string) // coverts to .js
+```
+
+### Require .sst file
+
+```javascript
+sst.reqScript(name: string) // coverts to .js
+```
