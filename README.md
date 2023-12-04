@@ -53,6 +53,7 @@ Commands:
 
 > [!NOTE]
 > You can add npx before the cli if it is installed in the project.
+
 > [!Note]
 > This module uses does not use/support ESM.
 
